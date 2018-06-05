@@ -357,7 +357,10 @@ class Repository(BaseRepo):
                     ref_name = "refs/heads/%s" % ref_name
             refspec = "%s:%s" % (rev, ref_name)
 
-        self._git("push", dest, refspec, f=force)
+        logger.debug(
+            "Executing git push %s %s Force=%s" % (dest, refspec, force))
+        output = self._git("push", dest, refspec, f=force)
+        logger.debug("Output:\n%s" % output)
         return self.tip()
 
     def _merge(self, local_branch=None, other_rev=None,
